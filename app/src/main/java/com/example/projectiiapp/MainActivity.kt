@@ -11,12 +11,19 @@ class MainActivity : ComponentActivity() {
     private lateinit var txtTemperature: TextView
     private lateinit var txtHumidity: TextView
     private lateinit var btnConnect: Button
+    private lateinit var btnLedOn: Button
+    private lateinit var btnLedOff: Button
+
     private lateinit var client: Mqtt5Client
 
-    val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
-    val username : String = "quang"
-    val password : String = "Quangkk123"
+    //val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
+    //val username : String = "quang"
+    //val password : String = "Quangkk123"
     val topic : String = "sensor/data"
+    val ledTopic: String = "led/control"
+    val host: String = "7882f49ec5a24abc9c49b6c8332f73e4.s1.eu.hivemq.cloud"
+    val username : String = "hayson"
+    val password : String = "Alo123,./"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +34,8 @@ class MainActivity : ComponentActivity() {
         btnConnect = findViewById(R.id.btnConnect)
         txtTemperature = findViewById(R.id.txtTemperature)
         txtHumidity = findViewById(R.id.txtHumidity)
+        btnLedOn = findViewById(R.id.btnLedOn)
+        btnLedOff = findViewById(R.id.btnLedOff)
 
         btnConnect.setOnClickListener {
             btnConnect.isEnabled = false
@@ -43,6 +52,16 @@ class MainActivity : ComponentActivity() {
             }
             connected = !connected
         }
+
+        btnLedOn.setOnClickListener {
+            publishMessage(ledTopic, "ON")
+        }
+
+
+        btnLedOff.setOnClickListener {
+            publishMessage(ledTopic, "OFF")
+        }
+
     }
 
     private fun mqttConnect() {
@@ -77,6 +96,17 @@ class MainActivity : ComponentActivity() {
         } catch (e: Exception) {
             Toast.makeText(this, "MQTT Connection Failed!", Toast.LENGTH_SHORT).show()
             e.printStackTrace()
+        }
+    }
+
+    private fun publishMessage(topic: String, message: String) {
+        try {
+            client.toAsync().publishWith()
+                .topic(topic)
+                .payload(message.toByteArray(StandardCharsets.UTF_8))
+                .send()
+        } catch (e: Exception) {
+            Toast.makeText(this, "Kiểm tra MQTT đã được kết nối hay chưa", Toast.LENGTH_SHORT).show()
         }
     }
 
