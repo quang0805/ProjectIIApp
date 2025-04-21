@@ -20,7 +20,7 @@ const char* mqttUser = "hayson";
 const char* mqttPassword = "Alo123,./";  
 
 // Khai báo cảm biến DHT11
-#define LED D0
+#define LED D7
 #define PUMP D2
 #define DHTPIN D4      
 #define DHTTYPE DHT11  
@@ -86,6 +86,7 @@ void reconnect_mqtt() {
     if (client.connect(mqttClientID, mqttUser, mqttPassword)) {
       Serial.println("Đã kết nối MQTT có xác thực!");
       client.subscribe("led/control"); 
+      client.subscribe("pump/control");
     } else {
       Serial.print("Thất bại, mã lỗi = ");
       Serial.print(client.state());
@@ -97,7 +98,7 @@ void reconnect_mqtt() {
 
 void setup() {
   pinMode(LED, OUTPUT);
-  pinMode(PUMP, OUTPUT)
+  pinMode(PUMP, OUTPUT);
   digitalWrite(LED, HIGH);
   digitalWrite (PUMP, HIGH); //tat may bom
   Serial.begin(115200);
