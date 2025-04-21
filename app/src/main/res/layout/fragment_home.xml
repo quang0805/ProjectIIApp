@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/imgTemperature"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:contentDescription="Temperature Icon"
+        android:src="@drawable/ic_temperature" />
+
+    <TextView
+        android:id="@+id/txtTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:paddingTop="10dp"
+        android:text="Temperature: -- °C"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/imgHumidity"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:contentDescription="Humidity Icon"
+        android:src="@drawable/ic_humidity" />
+
+    <TextView
+        android:id="@+id/txtHumidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="Humidity: -- %"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_normal"
+        android:text="Connect to MQTT"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnLedOff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tắt đèn"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/btnLedOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bật đèn"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

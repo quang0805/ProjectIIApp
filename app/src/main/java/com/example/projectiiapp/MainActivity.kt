@@ -27,40 +27,41 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        var connected = false
+        setContentView(R.layout.fragment_login)
 
-
-        btnConnect = findViewById(R.id.btnConnect)
-        txtTemperature = findViewById(R.id.txtTemperature)
-        txtHumidity = findViewById(R.id.txtHumidity)
-        btnLedOn = findViewById(R.id.btnLedOn)
-        btnLedOff = findViewById(R.id.btnLedOff)
-
-        btnConnect.setOnClickListener {
-            btnConnect.isEnabled = false
-            if(!connected){
-                mqttConnect()
-                btnConnect.text = "Disconnect!"
-                btnConnect.setBackgroundResource(R.drawable.button_clicked)
-                btnConnect.isEnabled = true
-            }else{
-                mqttDisconnect()
-                btnConnect.setText("Connect to MQTT!")
-                btnConnect.setBackgroundResource(R.drawable.button_selector)
-                btnConnect.isEnabled = true
-            }
-            connected = !connected
-        }
-
-        btnLedOn.setOnClickListener {
-            publishMessage(ledTopic, "ON")
-        }
-
-
-        btnLedOff.setOnClickListener {
-            publishMessage(ledTopic, "OFF")
-        }
+//        var connected = false
+//
+//
+//        btnConnect = findViewById(R.id.btnConnect)
+//        txtTemperature = findViewById(R.id.txtTemperature)
+//        txtHumidity = findViewById(R.id.txtHumidity)
+//        btnLedOn = findViewById(R.id.btnLedOn)
+//        btnLedOff = findViewById(R.id.btnLedOff)
+//
+//        btnConnect.setOnClickListener {
+//            btnConnect.isEnabled = false
+//            if(!connected){
+//                mqttConnect()
+//                btnConnect.text = "Disconnect!"
+//                btnConnect.setBackgroundResource(R.drawable.button_clicked)
+//                btnConnect.isEnabled = true
+//            }else{
+//                mqttDisconnect()
+//                btnConnect.setText("Connect to MQTT!")
+//                btnConnect.setBackgroundResource(R.drawable.button_selector)
+//                btnConnect.isEnabled = true
+//            }
+//            connected = !connected
+//        }
+//
+//        btnLedOn.setOnClickListener {
+//            publishMessage(ledTopic, "ON")
+//        }
+//
+//
+//        btnLedOff.setOnClickListener {
+//            publishMessage(ledTopic, "OFF")
+//        }
 
     }
 
