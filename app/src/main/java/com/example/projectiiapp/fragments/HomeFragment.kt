@@ -45,17 +45,16 @@ class HomeFragment : Fragment() {
     private lateinit var swPump: Switch
 
     private lateinit var client: Mqtt5Client
-
-val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
-    val username : String = "quang"
-    val password : String = "Quangkk123"
+    //val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
+    //val username : String = "quang"
+    //val password : String = "Quangkk123"
 
     val topic : String = "sensor/data"
     val ledTopic: String = "led/control"
     val pumpTopic: String = "pump/control"
-//    val host: String = "7882f49ec5a24abc9c49b6c8332f73e4.s1.eu.hivemq.cloud"
-//    val username : String = "hayson"
-//    val password : String = "Alo123,./"
+    val host: String = "7882f49ec5a24abc9c49b6c8332f73e4.s1.eu.hivemq.cloud"
+    val username : String = "hayson"
+    val password : String = "Alo123,./"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

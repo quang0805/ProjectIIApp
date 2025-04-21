@@ -82,7 +82,7 @@
     <Switch
         android:id="@+id/swLed"
         android:layout_width="57dp"
-        android:layout_height="38dp"
+        android:layout_height="48dp"
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imgLed"
@@ -118,8 +118,8 @@
     <Switch
         android:id="@+id/swPump"
         android:layout_width="57dp"
-        android:layout_height="38dp
-"
+        android:layout_height="48dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imgPumb"
         app:layout_constraintHorizontal_bias="0.911"
