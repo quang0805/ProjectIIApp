@@ -5,6 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.example.projectiiapp.AuthViewModel
 import com.example.projectiiapp.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -29,13 +35,24 @@ class SignUpFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
     }
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up, container, false)
+        val view = inflater.inflate(R.layout.fragment_sign_up, container, false)
+        view.findViewById<Button>(R.id.btnSignUp).setOnClickListener {
+            val email = view.findViewById<EditText>(R.id.edtEmailSignUp).text.toString()
+            val password = view.findViewById<EditText>(R.id.edtPasswordSignUp).text.toString()
+            authViewModel.signUp(email, password)
+        }
+        view.findViewById<TextView>(R.id.txtLinkToLogin).setOnClickListener {
+            findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+        }
+
+        return view
     }
 
     companion object {

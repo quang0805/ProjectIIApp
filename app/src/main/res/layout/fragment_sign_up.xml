@@ -58,7 +58,7 @@
         app:layout_constraintVertical_bias="0.139" />
 
     <TextView
-        android:id="@+id/txtLinkToSignUp"
+        android:id="@+id/txtLinkToLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign up"

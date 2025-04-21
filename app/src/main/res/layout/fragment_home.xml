@@ -1,63 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="20dp">
+    >
 
-    <ImageView
-        android:id="@+id/imgTemperature"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:contentDescription="Temperature Icon"
-        android:src="@drawable/ic_temperature" />
 
-    <TextView
-        android:id="@+id/txtTemperature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:paddingTop="10dp"
-        android:text="Temperature: -- °C"
-        android:textSize="18sp" />
-
-    <ImageView
-        android:id="@+id/imgHumidity"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:contentDescription="Humidity Icon"
-        android:src="@drawable/ic_humidity" />
+    <View
+        android:id="@+id/view"
+        android:layout_width="1dp"
+        android:layout_height="150dp"
+        android:background="#606060"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.18" />
 
     <TextView
         android:id="@+id/txtHumidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:text="Humidity: -- %"
-        android:textSize="18sp" />
+        android:text="Humidity: __ %"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.203"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgWaterDrop"
+        app:layout_constraintVertical_bias="0.03" />
+
+    <TextView
+        android:id="@+id/txtTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temperature: __°C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgTemparature"
+        app:layout_constraintVertical_bias="0.032" />
 
     <Button
         android:id="@+id/btnConnect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_normal"
-        android:text="Connect to MQTT"
-        android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:layout_width="137dp"
+        android:layout_height="54dp"
+        android:text="Connect"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.885" />
 
-    <Button
-        android:id="@+id/btnLedOff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tắt đèn"
-        android:layout_marginTop="16dp"/>
+    <ImageView
+        android:id="@+id/imgWaterDrop"
+        android:layout_width="130dp"
+        android:layout_height="107dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.177"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.181"
+        app:srcCompat="@drawable/ic_humidity_blue" />
 
-    <Button
-        android:id="@+id/btnLedOn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bật đèn"
-        android:layout_marginTop="16dp"/>
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imgTemparature"
+        android:layout_width="130dp"
+        android:layout_height="107dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.893"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.181"
+        app:srcCompat="@drawable/ic_temperature_red" />
+
+    <Switch
+        android:id="@+id/swLed"
+        android:layout_width="57dp"
+        android:layout_height="38dp"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imgLed"
+        app:layout_constraintHorizontal_bias="0.911"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <ImageView
+        android:id="@+id/imgLed"
+        android:layout_width="68dp"
+        android:layout_height="61dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.559"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/id_led" />
+
+    <ImageView
+        android:id="@+id/imgPumb"
+        android:layout_width="68dp"
+        android:layout_height="61dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.553"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgLed"
+        app:layout_constraintVertical_bias="0.1"
+        app:srcCompat="@drawable/ic_water_pump" />
+
+    <Switch
+        android:id="@+id/swPump"
+        android:layout_width="57dp"
+        android:layout_height="38dp
+"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imgPumb"
+        app:layout_constraintHorizontal_bias="0.911"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.62"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

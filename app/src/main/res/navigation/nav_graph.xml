@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    app:startDestination="@id/loginFragment"
+    >
+    <fragment
+    android:id="@+id/loginFragment"
+    android:name="com.example.projectiiapp.fragments.LoginFragment"
+    android:label="Login">
+    <action
+        app:destination="@id/signUpFragment"
+        android:id="@+id/action_loginFragment_to_signUpFragment"/>
+    <action
+        app:destination="@id/homeFragment"
+        android:id="@+id/action_loginFragment_to_homeFragment"/>
+
+    </fragment>
+    <fragment
+    android:id="@+id/signUpFragment"
+    android:name="com.example.projectiiapp.fragments.SignUpFragment"
+    android:label="SignUp">
+
+        <action
+            android:id="@+id/action_signUpFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_signUpFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+    android:id="@+id/homeFragment"
+    android:name="com.example.projectiiapp.fragments.HomeFragment"
+    android:label="Home">
+
+    </fragment>
+
+</navigation>
