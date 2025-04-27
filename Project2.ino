@@ -2,9 +2,11 @@
 #include<PubSubClient.h>
 #include<DHT.h>
 #include <WifiClientSecure.h>
+#include <WiFiManager.h>
+
 //thay bang ten, mat khau wifi cua minh
-const char* ssid = "AndroidAP";
-const char* password = "12345678";
+////const char* ssid = "AndroidAP";
+//const char* password = "12345678";
 
 
 //const char* mqttServer = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud";
@@ -36,13 +38,25 @@ char message[MSG_BUFFER_SIZE];
 
 // Hàm kết nối WiFi
 void setup_wifi() {
-  Serial.print("Đang kết nối WiFi...");
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("\nWiFi đã kết nối!");
+  //Serial.print("Đang kết nối WiFi...");
+  //WiFi.begin(ssid, password);
+  //while (WiFi.status() != WL_CONNECTED) {
+   // delay(500);
+   // Serial.print(".");
+  //}
+  //Serial.println("\nWiFi đã kết nối!");
+  WiFi.mode(WIFI_STA);
+  WiFiManager vm;
+  bool res;
+  res = vm.autoConnect("Project2");
+  if(!res) {
+        Serial.println("Failed to connect");
+        // ESP.restart();
+    } 
+    else {
+        //if you get here you have connected to the WiFi    
+        Serial.println("connected...yeey :)");
+    }
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
