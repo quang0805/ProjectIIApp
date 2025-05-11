@@ -9,48 +9,33 @@ import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import com.example.projectiiapp.AuthViewModel
 import com.example.projectiiapp.R
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client
 import java.nio.charset.StandardCharsets
+import kotlin.getValue
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
-
+    private val authViewModel: AuthViewModel by activityViewModels()
     private lateinit var txtTemperature: TextView
     private lateinit var txtHumidity: TextView
     private lateinit var btnConnect: Button
-    private lateinit var btnLedOn: Button
-    private lateinit var btnLedOff: Button
     private lateinit var swLed: Switch
     private lateinit var swPump: Switch
+    private lateinit var btnLogout: Button
 
     private lateinit var client: Mqtt5Client
 
-val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
-    val username : String = "quang"
-    val password : String = "Quangkk123"
+    val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
+    val username: String = "quang"
+    val password: String = "Quangkk123"
 
-    val topic : String = "sensor/data"
+    val topic: String = "sensor/data"
     val ledTopic: String = "led/control"
     val pumpTopic: String = "pump/control"
 //    val host: String = "7882f49ec5a24abc9c49b6c8332f73e4.s1.eu.hivemq.cloud"
@@ -71,16 +56,17 @@ val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
         txtHumidity = view.findViewById(R.id.txtHumidity)
         swLed = view.findViewById<Switch>(R.id.swLed)
         swPump = view.findViewById<Switch>(R.id.swPump)
+        btnLogout = view.findViewById<Button>(R.id.btnLogout)
 
 
         btnConnect.setOnClickListener {
             btnConnect.isEnabled = false
-            if(!connected){
+            if (!connected) {
                 mqttConnect()
                 btnConnect.text = "Disconnect!"
                 btnConnect.setBackgroundResource(R.drawable.button_clicked)
                 btnConnect.isEnabled = true
-            }else{
+            } else {
                 mqttDisconnect()
                 btnConnect.setText("Connect to MQTT!")
                 btnConnect.setBackgroundResource(R.drawable.button_selector)
@@ -89,9 +75,9 @@ val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
             connected = !connected
         }
         swLed.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked){
+            if (isChecked) {
                 publishMessage(ledTopic, "ON")
-            }else{
+            } else {
                 publishMessage(ledTopic, "OFF")
             }
         }
@@ -102,11 +88,15 @@ val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
                 publishMessage(pumpTopic, "OFF")
             }
         }
-
+        btnLogout.setOnClickListener {
+            Toast.makeText(requireContext(), "Logout!", Toast.LENGTH_SHORT).show()
+            authViewModel.logout()
+        }
 
 
         return view
     }
+
     private fun mqttConnect() {
         client = Mqtt5Client.builder()
             .identifier("AndroidClient")
@@ -115,8 +105,7 @@ val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
             .sslWithDefaultConfig()
             .build()
 
-
-        try{
+        try {
             client.toBlocking()
                 .connectWith()
                 .simpleAuth()
@@ -149,7 +138,7 @@ val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
                 .payload(message.toByteArray(StandardCharsets.UTF_8))
                 .send()
         } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Kiểm tra MQTT đã được kết nối hay chưa", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Chưa kết nối với Server!", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -166,36 +155,11 @@ val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
             txtHumidity.text = ""
         }
     }
+
     private fun mqttDisconnect() {
         client.toBlocking().disconnect()
         Toast.makeText(requireContext(), "Disconnected", Toast.LENGTH_SHORT).show()
         txtTemperature.text = "Temperature: 0 °C"
         txtHumidity.text = "Humidity: 0 %"
-    }
-
-
-
-
-
-
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

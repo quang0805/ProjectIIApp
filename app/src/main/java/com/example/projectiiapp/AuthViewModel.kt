@@ -6,10 +6,14 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 class AuthViewModel: ViewModel(){
-    private val _authState = MutableLiveData<AuthState>()
+    private val _authState = MutableLiveData<AuthState>(AuthState.Idle)
     val authState: LiveData<AuthState> = _authState
     private val firebaseAuth = FirebaseAuth.getInstance()
-
+    init {
+        if(firebaseAuth.currentUser != null){
+            _authState.value = AuthState.Success(firebaseAuth.currentUser?.uid ?: "")
+        }
+    }
 
     fun login(email: String, password: String) {
         _authState.value = AuthState.Loading
@@ -21,6 +25,7 @@ class AuthViewModel: ViewModel(){
                     _authState.value = AuthState.Error(task.exception?.message ?: "Login failed! Please try again.")
                 }
             }
+
     }
 
     fun signUp(email: String, password: String) {
