@@ -24,9 +24,6 @@ class MainActivity : AppCompatActivity() {
                 is AuthState.LoggedOut -> {
                     navController.popBackStack(R.id.loginFragment, false)
                 }
-                is AuthState.Error -> {
-                    Toast.makeText(this, state.message, Toast.LENGTH_SHORT).show()
-                }
                 else -> Unit
             }
         }

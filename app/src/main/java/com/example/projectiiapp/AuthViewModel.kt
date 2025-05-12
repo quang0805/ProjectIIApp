@@ -22,7 +22,7 @@ class AuthViewModel: ViewModel(){
                 if(task.isSuccessful){
                     _authState.value = AuthState.Success(firebaseAuth.currentUser?.uid ?: "")
                 }else{
-                    _authState.value = AuthState.Error(task.exception?.message ?: "Login failed! Please try again.")
+                    _authState.value = AuthState.Error("Thông tin tài khoản hoặc mật khẩu không đúng")
                 }
             }
 

@@ -32,7 +32,6 @@
     android:id="@+id/homeFragment"
     android:name="com.example.projectiiapp.fragments.HomeFragment"
     android:label="Home">
-
     </fragment>
 
 </navigation>

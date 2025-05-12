@@ -40,6 +40,9 @@ android {
             excludes += "META-INF/INDEX.LIST"
         }
     }
+    viewBinding{
+        enable = true
+    }
 }
 
 dependencies {
