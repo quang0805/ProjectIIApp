@@ -10,7 +10,7 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import com.example.projectiiapp.AuthViewModel
+import com.example.projectiiapp.auth.AuthViewModel
 import com.example.projectiiapp.R
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client
 import java.nio.charset.StandardCharsets

@@ -83,7 +83,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/txtQuestionAlready"
         app:layout_constraintTop_toBottomOf="@+id/btnSignUp"
-        app:layout_constraintVertical_bias="0.218" />
+        app:layout_constraintVertical_bias="0.215" />
 
     <ImageView
         android:id="@+id/imgPlantPot"

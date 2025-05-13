@@ -13,8 +13,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.projectiiapp.AuthState
-import com.example.projectiiapp.AuthViewModel
+import com.example.projectiiapp.auth.AuthState
+import com.example.projectiiapp.auth.AuthViewModel
 import com.example.projectiiapp.R
 import com.example.projectiiapp.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseUser
@@ -22,6 +22,7 @@ import com.hivemq.client.internal.util.Checks.state
 
 
 class LoginFragment : Fragment() {
+
 
 
     private val authViewModel: AuthViewModel by activityViewModels()
@@ -35,10 +36,12 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding= FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        authViewModel.resetAuthState()
+
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
         setupListeners()

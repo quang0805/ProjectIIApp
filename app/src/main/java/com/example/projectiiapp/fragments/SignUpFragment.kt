@@ -12,8 +12,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.projectiiapp.AuthState
-import com.example.projectiiapp.AuthViewModel
+import com.example.projectiiapp.auth.AuthState
+import com.example.projectiiapp.auth.AuthViewModel
 import com.example.projectiiapp.R
 import com.example.projectiiapp.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseUser
@@ -32,11 +32,14 @@ class SignUpFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
+        updateUI(AuthState.Idle)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        authViewModel.resetAuthState()
         setupObservers()
         setupListeners()
     }
@@ -64,10 +67,12 @@ class SignUpFragment : Fragment() {
             if (validateInput(email, password, confirmPassword)) {
                 authViewModel.signUp(email, password)
             }
-        binding.txtQuestionAlready.setOnClickListener {
-            findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
-            }
         }
+        binding.txtLinkToLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+        }
+
+
     }
 
     private fun validateInput(
@@ -112,9 +117,6 @@ class SignUpFragment : Fragment() {
 
         return isValid
     }
-
-
-
     private fun showIdleState() {
         with(binding) {
             progressBarSignUp.visibility = View.GONE

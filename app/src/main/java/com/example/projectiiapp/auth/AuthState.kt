@@ -1,4 +1,4 @@
-package com.example.projectiiapp
+package com.example.projectiiapp.auth
 
 sealed class AuthState {
     object Idle: AuthState()

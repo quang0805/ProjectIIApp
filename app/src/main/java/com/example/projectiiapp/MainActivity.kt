@@ -4,6 +4,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
+import com.example.projectiiapp.auth.AuthState
+import com.example.projectiiapp.auth.AuthViewModel
 
 class MainActivity : AppCompatActivity() {
 
