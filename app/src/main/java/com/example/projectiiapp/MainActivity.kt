@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.example.projectiiapp.auth.AuthState
 import com.example.projectiiapp.auth.AuthViewModel
+import com.example.projectiiapp.devices.DeviceViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private val authViewModel: AuthViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,8 +22,8 @@ class MainActivity : AppCompatActivity() {
         authViewModel.authState.observe(this) { state ->
             when (state) {
                 is AuthState.Success -> {
-                    if (navController.currentDestination?.id != R.id.homeFragment)
-                        navController.navigate(R.id.homeFragment)
+                    if (navController.currentDestination?.id != R.id.listDeviceFragment)
+                        navController.navigate(R.id.listDeviceFragment)
                 }
                 is AuthState.LoggedOut -> {
                     navController.popBackStack(R.id.loginFragment, false)

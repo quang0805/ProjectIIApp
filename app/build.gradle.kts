@@ -60,6 +60,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+
     implementation ("io.netty:netty-handler:4.1.94.Final")
     implementation ("io.netty:netty-tcnative-boringssl-static:2.0.56.Final")
 

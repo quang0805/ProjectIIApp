@@ -121,6 +121,8 @@ class LoginFragment : Fragment() {
     private fun handleSuccess(userId: String) {
         binding.btnLogin.visibility = View.VISIBLE
         binding.txtError.visibility = View.GONE
+        binding.edtEmailLogin.text.clear()
+        binding.edtPasswordLogin.text.clear()
 
 //        // Navigate to home screen
 //        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
