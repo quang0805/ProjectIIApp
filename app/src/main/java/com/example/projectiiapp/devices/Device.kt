@@ -1,11 +1,12 @@
 package com.example.projectiiapp.devices
 
+import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.PropertyName
-
+@IgnoreExtraProperties
 data class Device(
-    val deviceId: String = "",
-    val ownerId: String = "",
-    val name: String = "",
+    var deviceId: String = " " ,
+    val ownerId: String = " ",
+    val name: String = " ",
 
     @get:PropertyName("sensor_data")
     @set:PropertyName("sensor_data")
@@ -24,6 +25,5 @@ data class Device(
     data class DeviceControl(
         val ledControl: Boolean = false,
         val pumpControl: Boolean = false,
-        val last_updated: Long = 0
     )
 }

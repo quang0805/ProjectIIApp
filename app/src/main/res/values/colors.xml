@@ -3,7 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FFC70000</color>
-    <color name="purple_500">#FF6200EE</color>"
+    <color name="purple_500">#FF6200EE</color>
     <color name="blue_200">#405EBA</color>
-    <color name="gray_600">#FF757575</color>"
+    <color name="gray_600">#FF757575</color>
+    <color name="gray_100">#FFC2C2C2</color>
+    <color name="green_100">#4EE94E</color>
 </resources>

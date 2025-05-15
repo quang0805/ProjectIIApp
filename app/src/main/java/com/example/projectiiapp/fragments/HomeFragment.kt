@@ -1,6 +1,8 @@
 package com.example.projectiiapp.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,12 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.example.projectiiapp.auth.AuthViewModel
 import com.example.projectiiapp.R
+import com.example.projectiiapp.databinding.FragmentHomeBinding
+import com.example.projectiiapp.devices.Device
+import com.example.projectiiapp.devices.DeviceViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client
 import java.nio.charset.StandardCharsets
 import kotlin.getValue
@@ -22,22 +30,27 @@ class HomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
     private val authViewModel: AuthViewModel by activityViewModels()
+    private val deviceViewModel: DeviceViewModel by activityViewModels()
+
+    // Khai báo biến cho các ViewComponent
     private lateinit var txtTemperature: TextView
     private lateinit var txtHumidity: TextView
     private lateinit var btnConnect: Button
     private lateinit var swLed: Switch
     private lateinit var swPump: Switch
     private lateinit var btnLogout: Button
-
     private lateinit var client: Mqtt5Client
+    private lateinit var binding: FragmentHomeBinding
+    private var connected: Boolean = false
 
-    val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
-    val username: String = "quang"
-    val password: String = "Quangkk123"
 
-    val topic: String = "sensor/data"
-    val ledTopic: String = "led/control"
-    val pumpTopic: String = "pump/control"
+    // Các biến cho MQTT
+//    val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
+//    val username: String = "quang"
+//    val password: String = "Quangkk123"
+//    val topic: String = "sensor/data"
+//    val ledTopic: String = "led/control"
+//    val pumpTopic: String = "pump/control"
 //    val host: String = "7882f49ec5a24abc9c49b6c8332f73e4.s1.eu.hivemq.cloud"
 //    val username : String = "hayson"
 //    val password : String = "Alo123,./"
@@ -47,119 +60,162 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-        var connected = false
+        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+
+//        authViewModel.currentUserId.observe(viewLifecycleOwner) { userId ->
+//            binding.txtDisplayUserName.text = userId.toString()
+//        }
+
+        val userName = Firebase.auth.currentUser?.email.toString()
+        binding.txtDisplayUserName.text = userName.substringBefore("@")
 
 
-        btnConnect = view.findViewById(R.id.btnConnect)
-        txtTemperature = view.findViewById(R.id.txtTemperature)
-        txtHumidity = view.findViewById(R.id.txtHumidity)
-        swLed = view.findViewById<Switch>(R.id.swLed)
-        swPump = view.findViewById<Switch>(R.id.swPump)
-        btnLogout = view.findViewById<Button>(R.id.btnLogout)
+        btnConnect = binding.btnConnect
+        txtTemperature = binding.txtTemperature
+        txtHumidity = binding.txtHumidity
+        swLed = binding.swLed
+        swPump = binding.swPump
+        btnLogout = binding.btnLogout
 
+        return binding.root
+    }
 
-        btnConnect.setOnClickListener {
-            btnConnect.isEnabled = false
-            if (!connected) {
-                mqttConnect()
-                btnConnect.text = "Disconnect!"
-                btnConnect.setBackgroundResource(R.drawable.button_clicked)
-                btnConnect.isEnabled = true
-            } else {
-                mqttDisconnect()
-                btnConnect.setText("Connect to MQTT!")
-                btnConnect.setBackgroundResource(R.drawable.button_selector)
-                btnConnect.isEnabled = true
-            }
-            connected = !connected
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupObservers()
+        setupClickListeners()
+
+    }
+
+    private fun setupClickListeners() {
         swLed.setOnCheckedChangeListener { _, isChecked ->
+            val pumpStatus = swPump.isChecked
             if (isChecked) {
-                publishMessage(ledTopic, "ON")
+                deviceViewModel.controlDevice(deviceViewModel.currentDevice.value?.deviceId?:"", true, pumpStatus)
             } else {
-                publishMessage(ledTopic, "OFF")
+                deviceViewModel.controlDevice(deviceViewModel.currentDevice.value?.deviceId?:"", false, pumpStatus)
             }
         }
         swPump.setOnCheckedChangeListener { _, isChecked ->
+            val ledStatus = swLed.isChecked
             if (isChecked) {
-                publishMessage(pumpTopic, "ON")
+                deviceViewModel.controlDevice(deviceViewModel.currentDevice.value?.deviceId?:"", ledStatus, true)
             } else {
-                publishMessage(pumpTopic, "OFF")
+                deviceViewModel.controlDevice(deviceViewModel.currentDevice.value?.deviceId?:"", ledStatus, false)
             }
         }
-        btnLogout.setOnClickListener {
-            Toast.makeText(requireContext(), "Logout!", Toast.LENGTH_SHORT).show()
-            authViewModel.logout()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setupObservers(){
+        deviceViewModel.currentDevice.observe(viewLifecycleOwner){
+            binding.txtDisplayDeviceName.text = it?.deviceId
+            swLed.isChecked = it?.control?.ledControl?: false
+            swPump.isChecked = it?.control?.pumpControl ?: false
+            binding.txtHumidity.text = "Humidity: ${it?.sensorData?.humidity.toString()}"
+            binding.txtTemperature.text = "Temperature: ${it?.sensorData?.temperature.toString()}"
+//            Toast.makeText(requireContext(), "swLed: ${it?.deviceId}", Toast.LENGTH_SHORT).show()
         }
+//        Log.d("CurrentDeviceId: ", deviceViewModel.currentDevice.value?.deviceId?:"")
+//        deviceViewModel.fetchCurrentDevice(deviceViewModel.currentDevice.value?.deviceId)
 
-
-        return view
     }
 
-    private fun mqttConnect() {
-        client = Mqtt5Client.builder()
-            .identifier("AndroidClient")
-            .serverHost(host)
-            .serverPort(8883)
-            .sslWithDefaultConfig()
-            .build()
-
-        try {
-            client.toBlocking()
-                .connectWith()
-                .simpleAuth()
-                .username(username)
-                .password(password.toByteArray(StandardCharsets.UTF_8))
-                .applySimpleAuth()
-                .send()
-
-            Toast.makeText(requireContext(), "Connected to MQTT!", Toast.LENGTH_SHORT).show()
-
-            client.toAsync().subscribeWith()
-                .topicFilter(topic)
-                .callback { publish ->
-                    val message = String(publish.payloadAsBytes, StandardCharsets.UTF_8)
-                    activity?.runOnUiThread {
-                        updateSensorData(message)
-                    }
-                }
-                .send()
-        } catch (e: Exception) {
-            Toast.makeText(requireContext(), "MQTT Connection Failed!", Toast.LENGTH_SHORT).show()
-            e.printStackTrace()
-        }
-    }
-
-    private fun publishMessage(topic: String, message: String) {
-        try {
-            client.toAsync().publishWith()
-                .topic(topic)
-                .payload(message.toByteArray(StandardCharsets.UTF_8))
-                .send()
-        } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Chưa kết nối với Server!", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun updateSensorData(json: String) {
-        try {
-            val jsonObject = org.json.JSONObject(json)
-            val temperature = jsonObject.getDouble("temperature")
-            val humidity = jsonObject.getDouble("humidity")
-
-            txtTemperature.text = "Temperature: $temperature °C"
-            txtHumidity.text = "Humidity: $humidity %"
-        } catch (e: Exception) {
-            txtTemperature.text = "Invalid data"
-            txtHumidity.text = ""
-        }
-    }
-
-    private fun mqttDisconnect() {
-        client.toBlocking().disconnect()
-        Toast.makeText(requireContext(), "Disconnected", Toast.LENGTH_SHORT).show()
-        txtTemperature.text = "Temperature: 0 °C"
-        txtHumidity.text = "Humidity: 0 %"
-    }
+//    private fun setupClickListeners(){
+//        btnConnect.setOnClickListener {
+//            btnConnect.isEnabled = false
+//            if (!connected) {
+//                mqttConnect()
+//                btnConnect.text = "Disconnect!"
+//                btnConnect.setBackgroundResource(R.drawable.button_clicked)
+//                btnConnect.isEnabled = true
+//            } else {
+//                mqttDisconnect()
+//                btnConnect.setText("Connect to MQTT!")
+//                btnConnect.setBackgroundResource(R.drawable.button_selector)
+//                btnConnect.isEnabled = true
+//            }
+//            connected = !connected
+//        }
+//        swLed.setOnCheckedChangeListener { _, isChecked ->
+//            if (isChecked) {
+//                publishMessage(ledTopic, "ON")
+//            } else {
+//                publishMessage(ledTopic, "OFF")
+//            }
+//        }
+//        swPump.setOnCheckedChangeListener { _, isChecked ->
+//            if (isChecked) {
+//                publishMessage(pumpTopic, "ON")
+//            } else {
+//                publishMessage(pumpTopic, "OFF")
+//            }
+//        }
+//        btnLogout.setOnClickListener {
+//            Toast.makeText(requireContext(), "Logout!", Toast.LENGTH_SHORT).show()
+//            authViewModel.logout()
+//        }
+//    }
+//    private fun mqttConnect() {
+//        client = Mqtt5Client.builder()
+//            .identifier("AndroidClient")
+//            .serverHost(host)
+//            .serverPort(8883)
+//            .sslWithDefaultConfig()
+//            .build()
+//
+//        try {
+//            client.toBlocking()
+//                .connectWith()
+//                .simpleAuth()
+//                .username(username)
+//                .password(password.toByteArray(StandardCharsets.UTF_8))
+//                .applySimpleAuth()
+//                .send()
+//
+//            Toast.makeText(requireContext(), "Connected to MQTT!", Toast.LENGTH_SHORT).show()
+//
+//            client.toAsync().subscribeWith()
+//                .topicFilter(topic)
+//                .callback { publish ->
+//                    val message = String(publish.payloadAsBytes, StandardCharsets.UTF_8)
+//                    activity?.runOnUiThread {
+//                        updateSensorData(message)
+//                    }
+//                }
+//                .send()
+//        } catch (e: Exception) {
+//            Toast.makeText(requireContext(), "MQTT Connection Failed!", Toast.LENGTH_SHORT).show()
+//            e.printStackTrace()
+//        }
+//    }
+//    private fun publishMessage(topic: String, message: String) {
+//        try {
+//            client.toAsync().publishWith()
+//                .topic(topic)
+//                .payload(message.toByteArray(StandardCharsets.UTF_8))
+//                .send()
+//        } catch (e: Exception) {
+//            Toast.makeText(requireContext(), "Chưa kết nối với Server!", Toast.LENGTH_SHORT).show()
+//        }
+//    }
+//    private fun updateSensorData(json: String) {
+//        try {
+//            val jsonObject = org.json.JSONObject(json)
+//            val temperature = jsonObject.getDouble("temperature")
+//            val humidity = jsonObject.getDouble("humidity")
+//
+//            txtTemperature.text = "Temperature: $temperature °C"
+//            txtHumidity.text = "Humidity: $humidity %"
+//        } catch (e: Exception) {
+//            txtTemperature.text = "Invalid data"
+//            txtHumidity.text = ""
+//        }
+//    }
+//    private fun mqttDisconnect() {
+//        client.toBlocking().disconnect()
+//        Toast.makeText(requireContext(), "Disconnected", Toast.LENGTH_SHORT).show()
+//        txtTemperature.text = "Temperature: 0 °C"
+//        txtHumidity.text = "Humidity: 0 %"
+//    }
 }

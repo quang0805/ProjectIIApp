@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+<!--        android:background="@drawable/background"-->
     <!-- App Bar -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -14,8 +18,9 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@color/blue_200"
+            android:layout_height="150dp"
+            app:titleTextColor='@color/black'
+            android:background="@drawable/toolbar_background"
             app:titleCentered="true"
             app:title="Welcome back" />
 
@@ -58,17 +63,6 @@
                 tools:listitem="@layout/item_device"
                 android:clipToPadding="false"
                 android:paddingBottom="80dp"/>
-
-
-            <Button
-                android:id="@+id/btnLogout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="16dp"
-                android:text="Logout"
-                />
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
     <!-- Add Device Button -->

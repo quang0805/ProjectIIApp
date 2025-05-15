@@ -9,7 +9,6 @@ import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ValueEventListener
 
 class DeviceViewModel: ViewModel() {
@@ -22,6 +21,9 @@ class DeviceViewModel: ViewModel() {
     private val _currentDevice = MutableLiveData<Device?>()
     val currentDevice: LiveData<Device?> = _currentDevice
 
+
+
+    // Fetch danh sách thiết bị user hiện có.
     fun fetchDevices(){
         database.child("users/$userId/devices").addValueEventListener(
             object : ValueEventListener{
@@ -32,6 +34,7 @@ class DeviceViewModel: ViewModel() {
                     deviceIds.forEach { deviceId ->
                         database.child("devices/$deviceId").get()
                             .addOnSuccessListener { deviceSnapshot ->
+                                Log.d("fetchDevice Snapshort", deviceSnapshot.toString())
                                 deviceSnapshot.getValue(Device::class.java)?.let {
                                     deviceList.add(it.copy(deviceId = deviceId!!))
                                     _devices.value = deviceList
@@ -76,16 +79,43 @@ class DeviceViewModel: ViewModel() {
         database.child("devices/$deviceId").get()
             .addOnSuccessListener { deviceSnapshot ->
                 deviceSnapshot.getValue(Device::class.java)?.let {
-                    _currentDevice.value = it.copy(deviceId = deviceId)
+                    _currentDevice.postValue(it)
                 }
             }
+            .addOnFailureListener { e ->
+                Log.e("DeviceVM", "Lỗi khi lấy thông tin thiết bị hiện tại", e)
+            }
+        fetchCurrentDevice(deviceId)
     }
     fun controlDevice(deviceId: String, ledState: Boolean, pumpState: Boolean) {
         val updates = mapOf(
-            "control/ledControl" to ledState,
-            "control/pumpControl" to pumpState,
-            "control/last_updated" to ServerValue.TIMESTAMP
+            "/control/ledControl" to ledState,
+            "/control/pumpControl" to pumpState,
         )
         database.child("devices/$deviceId").updateChildren(updates)
     }
+
+//    private var currentDeviceListener: ValueEventListener? = null
+    // Fetch thông tin thiết bị hiện tại.
+    fun fetchCurrentDevice(deviceId: String?) {
+//        currentDeviceListener?.let {
+//            database.child("devices/$deviceId").removeEventListener(it)
+//        }
+        Log.d("DeviceVM", deviceId?:"")
+        database.child("devices/${deviceId}").addValueEventListener(
+            object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val deviceId = snapshot.key
+                    database.child("devices/$deviceId").get()
+                        .addOnSuccessListener { deviceSnapshot ->
+                            deviceSnapshot.getValue(Device::class.java)?.let {
+                                _currentDevice.value = it.copy(deviceId = deviceId!!)
+                            }
+                        }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("DeviceVM", "Error data current device", error.toException())
+                }
+            }
+        )}
 }

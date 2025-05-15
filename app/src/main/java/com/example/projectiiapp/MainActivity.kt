@@ -11,7 +11,7 @@ import com.example.projectiiapp.devices.DeviceViewModel
 class MainActivity : AppCompatActivity() {
 
     private val authViewModel: AuthViewModel by viewModels()
-
+    private val deviceViewModel: DeviceViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +31,6 @@ class MainActivity : AppCompatActivity() {
                 else -> Unit
             }
         }
-
-
     }
 
 
