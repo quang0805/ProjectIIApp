@@ -23,6 +23,7 @@ class AuthViewModel: ViewModel(){
 
     init {
         checkCurrentUser()
+//        setAuthState()
     }
 
     fun resetAuthState() {
@@ -131,5 +132,4 @@ class AuthViewModel: ViewModel(){
                 callback(false)
             }
     }
-
 }
