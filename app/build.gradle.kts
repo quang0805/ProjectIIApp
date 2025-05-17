@@ -40,6 +40,9 @@ android {
             excludes += "META-INF/INDEX.LIST"
         }
     }
+    viewBinding{
+        enable = true
+    }
 }
 
 dependencies {
@@ -52,9 +55,11 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 
     implementation ("io.netty:netty-handler:4.1.94.Final")
     implementation ("io.netty:netty-tcnative-boringssl-static:2.0.56.Final")

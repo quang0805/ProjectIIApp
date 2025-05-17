@@ -14,10 +14,10 @@
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.635"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.459" />
+        app:layout_constraintVertical_bias="0.328" />
 
     <EditText
         android:id="@+id/edtPasswordSignUp"
@@ -29,21 +29,36 @@
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.635"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtEmailSignUp"
-        app:layout_constraintVertical_bias="0.042" />
+        app:layout_constraintVertical_bias="0.029" />
+
+    <EditText
+        android:id="@+id/edtConfirmPassword"
+        android:layout_width="326dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:fontFamily="sans-serif"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtPasswordSignUp" />
 
     <Button
         android:id="@+id/btnSignUp"
-        android:layout_width="245dp"
-        android:layout_height="55dp"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
         android:text="Sign Up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtPasswordSignUp"
-        app:layout_constraintVertical_bias="0.105" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.651" />
 
     <TextView
         android:id="@+id/txtQuestionAlready"
@@ -52,23 +67,23 @@
         android:text="Already have an account?"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.396"
+        app:layout_constraintHorizontal_bias="0.436"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSignUp"
-        app:layout_constraintVertical_bias="0.139" />
+        app:layout_constraintVertical_bias="0.218" />
 
     <TextView
         android:id="@+id/txtLinkToLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign up"
+        android:text="Login"
         android:textColor="#6200EE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/txtQuestionAlready"
         app:layout_constraintTop_toBottomOf="@+id/btnSignUp"
-        app:layout_constraintVertical_bias="0.139" />
+        app:layout_constraintVertical_bias="0.215" />
 
     <ImageView
         android:id="@+id/imgPlantPot"
@@ -80,44 +95,46 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtQuestionAlready"
-        app:layout_constraintVertical_bias="0.413" />
+        app:layout_constraintVertical_bias="0.41" />
 
     <ImageView
-        android:id="@+id/imgPasswordSignUp"
-        android:layout_width="27dp"
-        android:layout_height="39dp"
-        android:src="@drawable/lock"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/edtPasswordSignUp"
-        app:layout_constraintHorizontal_bias="0.592"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.565" />
-
-    <ImageView
-        android:id="@+id/imgEmailSignUp"
-        android:layout_width="31dp"
-        android:layout_height="26dp"
-        android:src="@drawable/ic_mail"
-        app:layout_constraintBottom_toTopOf="@+id/imgPasswordSignUp"
-        app:layout_constraintEnd_toStartOf="@+id/edtEmailSignUp"
-        app:layout_constraintHorizontal_bias="0.521"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.901" />
-
-    <TextView
-        android:id="@+id/txtSignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SIGN UP"
-        android:textSize="40sp"
-        android:textStyle="bold"
+        android:id="@+id/imageView4"
+        android:layout_width="150dp"
+        android:layout_height="134dp"
         app:layout_constraintBottom_toTopOf="@+id/edtEmailSignUp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.878" />
+        app:layout_constraintVertical_bias="0.655"
+        app:srcCompat="@drawable/ic_account_circle" />
+
+    <ProgressBar
+        android:id="@+id/progressBarSignUp"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/txtQuestionAlready"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtConfirmPassword"
+        app:layout_constraintVertical_bias="0.319" />
+
+    <TextView
+        android:id="@+id/txtError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/txtQuestionAlready"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtConfirmPassword"
+        app:layout_constraintVertical_bias="0.881" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
