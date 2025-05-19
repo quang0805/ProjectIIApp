@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_nav_graph.xml"
+    app:startDestination="@id/temperatureFragment">
+    <fragment
+        android:id="@+id/temperatureFragment"
+        android:name="com.example.projectiiapp.fragments.TemperatureFragment"
+        android:label="fragment_temperature"
+        tools:layout="@layout/fragment_temperature" />
+    <fragment
+        android:id="@+id/humidityFragment"
+        android:name="com.example.projectiiapp.fragments.HumidityFragment"
+        android:label="fragment_humidity"
+        tools:layout="@layout/fragment_humidity" />
+    <fragment
+        android:id="@+id/soilMoistureFragment"
+        android:name="com.example.projectiiapp.fragments.SoilMoistureFragment"
+        android:label="fragment_soil_moisture"
+        tools:layout="@layout/fragment_soil_moisture" />
+    <fragment
+        android:id="@+id/pumpSettingsFragment"
+        android:name="com.example.projectiiapp.fragments.PumpSettingsFragment"
+        android:label="fragment_pump_settings"
+        tools:layout="@layout/fragment_pump_settings" />
+</navigation>

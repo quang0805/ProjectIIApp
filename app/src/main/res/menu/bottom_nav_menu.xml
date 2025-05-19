@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/temperatureFragment"
+        android:icon="@drawable/ic_temperature"
+        android:title=" " />
+
+    <item
+        android:id="@+id/humidityFragment"
+        android:icon="@drawable/ic_humidity_air"
+        android:title=" " />
+
+    <item
+        android:id="@+id/soilMoistureFragment"
+        android:icon="@drawable/ic_humidity_soild"
+        android:title=" " />
+
+    <item
+        android:id="@+id/pumpSettingsFragment"
+        android:icon="@drawable/ic_water_pump"
+        android:title=" " />
+</menu>

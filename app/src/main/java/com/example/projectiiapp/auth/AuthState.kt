@@ -1,5 +1,4 @@
 package com.example.projectiiapp.auth
-
 sealed class AuthState {
     object Idle: AuthState()
     object Loading: AuthState()
