@@ -14,16 +14,12 @@ class AuthViewModel: ViewModel(){
     private val _authState = MutableLiveData<AuthState>(AuthState.Idle)
     val authState: LiveData<AuthState> = _authState
 
-//    private val _currentUserId = MutableLiveData<String?>(null)
-//    val currentUserId: LiveData<String?> = _currentUserId
-
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance().reference
 
 
     init {
         checkCurrentUser()
-//        setAuthState()
     }
 
     fun resetAuthState() {
@@ -39,7 +35,6 @@ class AuthViewModel: ViewModel(){
                     verifyUserRecord(userId) { exists ->
                         if (exists) {
                             _authState.value = AuthState.Success(userId)
-//                            _currentUserId.value = userId
                         } else {
                             _authState.value = AuthState.Error("Tài khoản không tồn tại trong hệ thống")
                             firebaseAuth.signOut()
@@ -65,7 +60,6 @@ class AuthViewModel: ViewModel(){
                     createUserRecord(userId, email) { success ->
                         if (success) {
                             _authState.value = AuthState.Success(userId)
-//                            _currentUserId.value = userId
                         } else {
                             _authState.value = AuthState.Error("Lỗi khi tạo hồ sơ người dùng")
                             firebaseAuth.currentUser?.delete()
@@ -85,7 +79,6 @@ class AuthViewModel: ViewModel(){
     fun logout() {
         firebaseAuth.signOut()
         _authState.value = AuthState.LoggedOut
-//        _currentUserId.value = null
     }
     private fun checkCurrentUser() {
         firebaseAuth.currentUser?.let { user ->

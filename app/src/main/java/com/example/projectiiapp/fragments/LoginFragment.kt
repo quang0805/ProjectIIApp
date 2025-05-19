@@ -39,9 +39,7 @@ class LoginFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         authViewModel.resetAuthState()
-
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
         setupListeners()

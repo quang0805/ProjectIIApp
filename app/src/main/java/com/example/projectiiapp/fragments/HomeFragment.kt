@@ -11,7 +11,12 @@ import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.projectiiapp.auth.AuthViewModel
 import com.example.projectiiapp.R
 import com.example.projectiiapp.databinding.FragmentHomeBinding
@@ -26,24 +31,14 @@ import kotlin.getValue
 
 
 class HomeFragment : Fragment() {
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-    private val authViewModel: AuthViewModel by activityViewModels()
-    private val deviceViewModel: DeviceViewModel by activityViewModels()
-
-    // Khai báo biến cho các ViewComponent
-    private lateinit var txtTemperature: TextView
-    private lateinit var txtHumidity: TextView
-    private lateinit var btnConnect: Button
-    private lateinit var swLed: Switch
-    private lateinit var swPump: Switch
-    private lateinit var btnLogout: Button
-    private lateinit var client: Mqtt5Client
-    private lateinit var binding: FragmentHomeBinding
-    private var connected: Boolean = false
-
-
+//    private val deviceViewModel: DeviceViewModel by activityViewModels()
     // Các biến cho MQTT
 //    val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
 //    val username: String = "quang"
@@ -59,63 +54,67 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-
-//        authViewModel.currentUserId.observe(viewLifecycleOwner) { userId ->
-//            binding.txtDisplayUserName.text = userId.toString()
-//        }
-
-        val userName = Firebase.auth.currentUser?.email.toString()
-        binding.txtDisplayUserName.text = userName.substringBefore("@")
-
-
-        btnConnect = binding.btnConnect
-        txtTemperature = binding.txtTemperature
-        txtHumidity = binding.txtHumidity
-        swLed = binding.swLed
-        swPump = binding.swPump
-        btnLogout = binding.btnLogout
-
+        _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupObservers()
-        setupClickListeners()
 
+        val navController = (childFragmentManager.findFragmentById(R.id.nav_host_fragment_home) as NavHostFragment).navController
+        binding.bottomNavigationHome.setupWithNavController(navController)
+
+        (activity as? AppCompatActivity)?.setSupportActionBar(binding.toolbar)
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.toolbar.title = "Plant"
+        binding.toolbar.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.gray_100))
+
+
+        // Xử lý sự kiện nút back trên Toolbar
+            binding.toolbar.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
     }
 
-    private fun setupClickListeners() {
-        swLed.setOnCheckedChangeListener { _, isChecked ->
-            val pumpStatus = swPump.isChecked
-            if (isChecked) {
-                deviceViewModel.controlDevice(deviceViewModel.currentDevice.value?.deviceId?:"", true, pumpStatus)
-            } else {
-                deviceViewModel.controlDevice(deviceViewModel.currentDevice.value?.deviceId?:"", false, pumpStatus)
-            }
-        }
-        swPump.setOnCheckedChangeListener { _, isChecked ->
-            val ledStatus = swLed.isChecked
-            if (isChecked) {
-                deviceViewModel.controlDevice(deviceViewModel.currentDevice.value?.deviceId?:"", ledStatus, true)
-            } else {
-                deviceViewModel.controlDevice(deviceViewModel.currentDevice.value?.deviceId?:"", ledStatus, false)
-            }
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun setupObservers(){
-        deviceViewModel.currentDevice.observe(viewLifecycleOwner){
-            binding.txtDisplayDeviceName.text = it?.deviceId
-            swLed.isChecked = it?.control?.ledControl?: false
-            swPump.isChecked = it?.control?.pumpControl ?: false
-            binding.txtHumidity.text = "Humidity: ${it?.sensorData?.humidity.toString()}"
-            binding.txtTemperature.text = "Temperature: ${it?.sensorData?.temperature.toString()}"
-//            Toast.makeText(requireContext(), "swLed: ${it?.deviceId}", Toast.LENGTH_SHORT).show()
-        }
+//    private fun setupClickListeners() {
+//        swLed.setOnCheckedChangeListener { _, isChecked ->
+//            val pumpStatus = swPump.isChecked
+//            if (isChecked) {
+//                deviceViewModel.controlDevice(deviceViewModel.currentDevice.value?.deviceId?:"", true, pumpStatus)
+//            } else {
+//                deviceViewModel.controlDevice(deviceViewModel.currentDevice.value?.deviceId?:"", false, pumpStatus)
+//            }
+//        }
+//        swPump.setOnCheckedChangeListener { _, isChecked ->
+//            val ledStatus = swLed.isChecked
+//            if (isChecked) {
+//                deviceViewModel.controlDevice(deviceViewModel.currentDevice.value?.deviceId?:"", ledStatus, true)
+//            } else {
+//                deviceViewModel.controlDevice(deviceViewModel.currentDevice.value?.deviceId?:"", ledStatus, false)
+//            }
+//        }
+//    }
+
+//    @SuppressLint("SetTextI18n")
+//    private fun setupObservers(){
+//        deviceViewModel.currentDevice.observe(viewLifecycleOwner){
+//            binding.txtDisplayDeviceName.text = it?.deviceId
+//            swLed.isChecked = it?.control?.ledControl?: false
+//            swPump.isChecked = it?.control?.pumpControl ?: false
+//            binding.txtHumidity.text = "Humidity: ${it?.sensorData?.humidity.toString()}"
+//            binding.txtTemperature.text = "Temperature: ${it?.sensorData?.temperature.toString()}"
+////            Toast.makeText(requireContext(), "swLed: ${it?.deviceId}", Toast.LENGTH_SHORT).show()
+//        }
 //        Log.d("CurrentDeviceId: ", deviceViewModel.currentDevice.value?.deviceId?:"")
 //        deviceViewModel.fetchCurrentDevice(deviceViewModel.currentDevice.value?.deviceId)
 
@@ -218,4 +217,4 @@ class HomeFragment : Fragment() {
 //        txtTemperature.text = "Temperature: 0 °C"
 //        txtHumidity.text = "Humidity: 0 %"
 //    }
-}
+//}
