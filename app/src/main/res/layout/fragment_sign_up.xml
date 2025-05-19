@@ -41,6 +41,22 @@
         app:layout_constraintTop_toBottomOf="@+id/edtEmailSignUp"
         app:layout_constraintVertical_bias="0.058" />
 
+    <!-- Icon toggle mật khẩu chính -->
+    <ImageView
+        android:id="@+id/imgTogglePasswordSignUp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_visibility_off"
+        android:contentDescription="Toggle password visibility"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginEnd="10dp"
+        android:elevation="6dp"
+        app:layout_constraintTop_toTopOf="@id/edtPasswordSignUp"
+        app:layout_constraintBottom_toBottomOf="@id/edtPasswordSignUp"
+        app:layout_constraintEnd_toEndOf="@id/edtPasswordSignUp" />
+
+
     <EditText
         android:id="@+id/edtConfirmPassword"
         android:layout_width="326dp"
@@ -55,6 +71,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtPasswordSignUp" />
 
+    <ImageView
+        android:id="@+id/imgToggleConfirmPassword"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_visibility_off"
+        android:contentDescription="Toggle confirm password visibility"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginEnd="10dp"
+        android:elevation="6dp"
+        app:layout_constraintTop_toTopOf="@id/edtConfirmPassword"
+        app:layout_constraintBottom_toBottomOf="@id/edtConfirmPassword"
+        app:layout_constraintEnd_toEndOf="@id/edtConfirmPassword" />
+
     <Button
         android:id="@+id/btnSignUp"
         android:layout_width="120dp"
@@ -62,16 +92,16 @@
         android:text="Sign Up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.76" />
+        app:layout_constraintVertical_bias="0.788" />
 
     <TextView
         android:id="@+id/txtQuestionAlready"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already have an account?"
+        android:text="Already have an account? "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.436"

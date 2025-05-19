@@ -2,6 +2,7 @@ package com.example.projectiiapp.fragments
 
 import android.R.attr.text
 import android.os.Bundle
+import android.text.InputType
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,6 +21,9 @@ import com.example.projectiiapp.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseUser
 import com.hivemq.client.internal.util.Checks.state
 
+import android.text.method.PasswordTransformationMethod
+import android.text.method.HideReturnsTransformationMethod
+
 
 class LoginFragment : Fragment() {
 
@@ -28,6 +32,7 @@ class LoginFragment : Fragment() {
     private val authViewModel: AuthViewModel by activityViewModels()
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    private var isPasswordVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +69,23 @@ class LoginFragment : Fragment() {
         binding.txtLinkToSignUp.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
+
+        binding.imgTogglePassword.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            if (isPasswordVisible) {
+                // Hiện mật khẩu
+                binding.edtPasswordLogin.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                binding.imgTogglePassword.setImageResource(R.drawable.ic_visibility)
+            } else {
+                // Ẩn mật khẩu
+                binding.edtPasswordLogin.transformationMethod = PasswordTransformationMethod.getInstance()
+                binding.imgTogglePassword.setImageResource(R.drawable.ic_visibility_off)
+            }
+            // Giữ con trỏ ở cuối văn bản
+            binding.edtPasswordLogin.setSelection(binding.edtPasswordLogin.text.length)
+        }
     }
+
     private fun validateInput(email: String, password: String): Boolean {
         var isValid = true
 

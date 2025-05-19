@@ -1,6 +1,8 @@
 package com.example.projectiiapp.fragments
 
 import android.os.Bundle
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,6 +27,9 @@ class SignUpFragment : Fragment() {
     private val authViewModel: AuthViewModel by activityViewModels()
     private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
+
+    private var isPasswordVisible = false
+    private var isConfirmPasswordVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,7 +76,29 @@ class SignUpFragment : Fragment() {
         binding.txtLinkToLogin.setOnClickListener {
             findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
         }
+        binding.imgTogglePasswordSignUp.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            if (isPasswordVisible) {
+                binding.edtPasswordSignUp.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                binding.imgTogglePasswordSignUp.setImageResource(R.drawable.ic_visibility)
+            } else {
+                binding.edtPasswordSignUp.transformationMethod = PasswordTransformationMethod.getInstance()
+                binding.imgTogglePasswordSignUp.setImageResource(R.drawable.ic_visibility_off)
+            }
+            binding.edtPasswordSignUp.setSelection(binding.edtPasswordSignUp.text.length)
+        }
 
+        binding.imgToggleConfirmPassword.setOnClickListener {
+            isConfirmPasswordVisible = !isConfirmPasswordVisible
+            if (isConfirmPasswordVisible) {
+                binding.edtConfirmPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                binding.imgToggleConfirmPassword.setImageResource(R.drawable.ic_visibility)
+            } else {
+                binding.edtConfirmPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+                binding.imgToggleConfirmPassword.setImageResource(R.drawable.ic_visibility_off)
+            }
+            binding.edtConfirmPassword.setSelection(binding.edtConfirmPassword.text.length)
+        }
 
     }
 
