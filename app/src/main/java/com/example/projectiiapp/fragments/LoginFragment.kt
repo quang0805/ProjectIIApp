@@ -1,6 +1,7 @@
 package com.example.projectiiapp.fragments
 
 import android.R.attr.text
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.InputType
 import android.util.Patterns
@@ -23,6 +24,7 @@ import com.hivemq.client.internal.util.Checks.state
 
 import android.text.method.PasswordTransformationMethod
 import android.text.method.HideReturnsTransformationMethod
+import androidx.activity.OnBackPressedCallback
 
 
 class LoginFragment : Fragment() {
@@ -46,6 +48,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         authViewModel.resetAuthState()
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, backPressedCallback)
         setupObservers()
         setupListeners()
     }
@@ -181,5 +185,21 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private val backPressedCallback = object : OnBackPressedCallback(true){
+        override fun handleOnBackPressed() {
+            handleBackPressed()
+        }
+    }
+    private fun handleBackPressed() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Thoát ứng dụng")
+            .setMessage("Bạn có chắc chắn muốn thoát?")
+            .setPositiveButton("Thoát") { _, _ ->
+                requireActivity().finishAffinity()
+            }
+            .setNegativeButton("Ở lại", null)
+            .show()
     }
 }

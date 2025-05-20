@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
                         navController.navigate(R.id.listDeviceFragment)
                 }
                 is AuthState.LoggedOut -> {
-                    navController.popBackStack(R.id.loginFragment, false)
+                    navController.navigate(R.id.loginFragment)
                 }
                 else -> Unit
             }

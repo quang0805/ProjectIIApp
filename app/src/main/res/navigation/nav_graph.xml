@@ -2,7 +2,7 @@
 <navigation
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    app:startDestination="@id/loginFragment"
+    app:startDestination="@id/greetingFragment"
     >
     <fragment
     android:id="@+id/loginFragment"
@@ -57,6 +57,14 @@
         android:label="ForgotPasswordFragment" >
         <action
             android:id="@+id/action_forgotPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/greetingFragment"
+        android:name="com.example.projectiiapp.fragments.GreetingFragment"
+        android:label="GreetingFragment" >
+        <action
+            android:id="@+id/action_greetingFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 
