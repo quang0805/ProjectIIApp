@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-//    private val deviceViewModel: DeviceViewModel by activityViewModels()
+//    private val deviceViewModel: DeviceView   Model by activityViewModels()
     // Các biến cho MQTT
 //    val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
 //    val username: String = "quang"
