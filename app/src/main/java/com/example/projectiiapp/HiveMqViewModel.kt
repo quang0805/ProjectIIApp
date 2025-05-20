@@ -1,22 +1,19 @@
-package com.example.projectiiapp.fragments
+package com.example.projectiiapp
 
-import android.R.id.message
-import android.util.Log.e
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client
+import org.json.JSONObject
 import java.nio.charset.StandardCharsets
 
-class HiveMqViewModel: ViewModel () {
+class HiveMqViewModel: ViewModel() {
     val host: String = "7249966839ac4bf68fc9bb228451bd0b.s1.eu.hivemq.cloud"
     val username: String = "quang"
     val password: String = "Quangkk123"
     val topic: String = "sensor/data"
-    val pumpTopic: String = "pump/control"
-    val pumpSchedule: String = "pump/schedule"
+//    val pumpTopic: String = "pump/control"
+//    val pumpSchedule: String = "pump/schedule"
 
 //    val host: String = "7882f49ec5a24abc9c49b6c8332f73e4.s1.eu.hivemq.cloud"
 //    val username : String = "hayson"
@@ -46,18 +43,6 @@ class HiveMqViewModel: ViewModel () {
         val airHumidity: Float = 0f,
         val soilMoisture: Float = 0f,
     )
-
-    data class PumpSchedule(
-        val enabled: Boolean,
-        val year: Int,
-        val month: Int,
-        val day: Int,
-        val hour: Int,
-        val minute: Int,
-        val second: Int,
-        val duration: Int
-    )
-
     private fun mqttConnect() {
         client = Mqtt5Client.builder()
             .identifier("AndroidClient")
@@ -99,7 +84,7 @@ class HiveMqViewModel: ViewModel () {
                 ?.topicFilter(topic)
                 ?.callback { publish ->
                     val message = String(publish.payloadAsBytes, StandardCharsets.UTF_8)
-                    val jsonObject = org.json.JSONObject(message)
+                    val jsonObject = JSONObject(message)
                     val temperature = jsonObject.getDouble("temperature").toFloat()
                     val airHumidity = jsonObject.getDouble("humidity").toFloat()
                     val soilMoisture = jsonObject.getDouble("soil").toFloat()

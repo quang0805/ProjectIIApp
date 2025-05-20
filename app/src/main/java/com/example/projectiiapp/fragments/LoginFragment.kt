@@ -66,6 +66,10 @@ class LoginFragment : Fragment() {
             }
         }
 
+        binding.txtForgotPassword.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
+        }
+
         binding.txtLinkToSignUp.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
