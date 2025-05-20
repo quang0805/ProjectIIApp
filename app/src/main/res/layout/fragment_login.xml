@@ -139,10 +139,12 @@
         android:id="@+id/txtError"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="124dp"
+        android:gravity="center"
         android:textColor="@color/red"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/edtPasswordLogin"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/edtPasswordLogin"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 

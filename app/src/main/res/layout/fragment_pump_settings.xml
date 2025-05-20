@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_gray_background"
+    android:background="@color/white"
     android:padding="16dp">
 
     <LinearLayout
@@ -144,9 +144,18 @@
             app:icon="@drawable/ic_setting"
             app:iconGravity="start"
             app:iconTint="@android:color/white"/>
+
+        <ImageView
+            android:id="@+id/imgPump"
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/pump_off" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPump"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

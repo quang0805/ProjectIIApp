@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.projectiiapp.HiveMqViewModel
@@ -97,10 +98,12 @@ class PumpSettingsFragment : Fragment() {
                     pumpStatus = "ON"
                     binding.btnPump.text = "TẮT BƠM"
                     binding.btnPump.setBackgroundColor(getColor(R.color.red))
+                    binding.imgPump.setImageResource(resources.getIdentifier("pump_on", "drawable", requireContext().packageName))
                 }else{
                     pumpStatus = "OFF"
                     binding.btnPump.text = "BƠM"
                     binding.btnPump.setBackgroundColor(getColor(R.color.primary_color))
+                    binding.imgPump.setImageResource(resources.getIdentifier("pump_off", "drawable", requireContext().packageName))
                 }
                 viewModel.publishMessage("pump/control", pumpStatus)
             }

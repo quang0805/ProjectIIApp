@@ -10,8 +10,10 @@
     <color name="green_100">#4EE94E</color>
     <color name="primary_color">#6200EE</color>
     <color name="primary_text">#212121</color>
+    <color name="primary_light">#405EBA</color>
     <color name="secondary_text">#757575</color>
     <color name="light_gray_background">#FAFAFA</color>
     <color name="card_stroke">#E0E0E0</color>
     <color name="switch_track">@android:color/darker_gray</color>
+    <color name="gray_200">#FF9E9E9E</color>
 </resources>
